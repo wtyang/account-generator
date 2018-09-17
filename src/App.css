@@ -1,0 +1,8 @@
+.select-input{
+  font-size: inherit;
+  border:1;
+  outline: none;
+  background: none;
+  cursor: default;
+  width: 100%;
+}
