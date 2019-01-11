@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-
 import * as mock from './../../mock';
 import ClipboardJS from 'clipboard';
-import { Icon, Button,Form, Input, message} from 'antd';
+import { Icon, Button,Form, Input, message, Switch} from 'antd';
 const FormItem = Form.Item;
 class SelectInput extends Component{
   render(){
@@ -26,7 +25,9 @@ class AccountGenerator extends Component {
     rendomName: '',
     rendomID:'',
     rendomMobile: '',
-    rendomBankCard: ''
+    rendomBankCard: '',
+    defaultBankCard: '6228481234567890003',
+    adult: true
   };
   componentDidMount(){
     this.initRendomData()
@@ -69,7 +70,16 @@ class AccountGenerator extends Component {
       collapsed: !this.state.collapsed,
     });
   }
-
+  /**
+  * 更改生成信息成年人/未成年
+  * 
+  */
+  changeAdult= ()=>{
+    this.setState({
+      adult: !this.state.adult
+    })
+    this.initRendomData();
+  }
   /**
    * 生成虚拟数据
    *  rendomName 姓名
@@ -80,7 +90,7 @@ class AccountGenerator extends Component {
   initRendomData = ()=>{
     this.setState({
       rendomName: mock.rendomName(),
-      rendomID: mock.rendomID(),
+      rendomID: mock.rendomID(this.state.adult),
       rendomMobile: mock.rendomMobile(),
       rendomBankCard: mock.rendomBankCard()
     })
@@ -111,32 +121,39 @@ class AccountGenerator extends Component {
       },
     };
     return (
-        
       <div className="App">
-        <FormItem {...tailFormItemLayout}>
-            <Button type="primary" htmlType="button"  onClick={this.initRendomData}>重新生成</Button>
-            <Button type="primary" htmlType="button" style={{ marginLeft: 8 }} data-clipboard-text={Object.values(this.state).join(',')}>复制全部</Button>
+        <FormItem inline  {...tailFormItemLayout}>
+          <label className="ant-checkbox-inline" style={{marginRight:10}} title="切换会重新生成数据">成年人/未成年  <Switch defaultChecked={this.state.adult} onChange={this.changeAdult} /></label>
+          <Button type="primary" htmlType="button"  onClick={this.initRendomData}>重新生成</Button>
+          <Button type="primary" htmlType="button" style={{ marginLeft: 8 }} data-clipboard-text={Object.values(this.state).join(',')}>复制全部</Button>
         </FormItem>
-        <FormItem {...formItemLayout} label="姓名">
-            {getFieldDecorator('rendomName')(
-                <SelectInput prefix="user" rendomValue={this.state.rendomName} ></SelectInput>
-            )}
-        </FormItem>
-        <FormItem {...formItemLayout} label="身份证号">
-            {getFieldDecorator('rendomID')(
-                <SelectInput prefix="idcard" rendomValue={this.state.rendomID}></SelectInput>
-            )}
-        </FormItem>
-        <FormItem {...formItemLayout} label="手机号">
-            {getFieldDecorator('rendomMobile')(
-                <SelectInput prefix="mobile" rendomValue={this.state.rendomMobile}></SelectInput>
-            )}
-        </FormItem>
-        <FormItem {...formItemLayout} label="银行卡号">
-            {getFieldDecorator('rendomBankCard')(
-                <SelectInput prefix="credit-card" rendomValue={this.state.rendomBankCard}></SelectInput>
-            )}
-        </FormItem>
+        <Form>
+          <FormItem {...formItemLayout} label="姓名">
+              {getFieldDecorator('rendomName')(
+                  <SelectInput prefix="user" rendomValue={this.state.rendomName} ></SelectInput>
+              )}
+          </FormItem>
+          <FormItem {...formItemLayout} label="身份证号">
+              {getFieldDecorator('rendomID')(
+                  <SelectInput prefix="idcard" rendomValue={this.state.rendomID}></SelectInput>
+              )}
+          </FormItem>
+          <FormItem {...formItemLayout} label="手机号">
+              {getFieldDecorator('rendomMobile')(
+                  <SelectInput prefix="mobile" rendomValue={this.state.rendomMobile}></SelectInput>
+              )}
+          </FormItem>
+          <FormItem {...formItemLayout} label="固定银行卡号">
+              {getFieldDecorator('defaultBankCard')(
+                  <SelectInput prefix="credit-card" rendomValue={this.state.defaultBankCard}></SelectInput>
+              )}
+          </FormItem>
+          <FormItem {...formItemLayout} label="银行卡号">
+              {getFieldDecorator('rendomBankCard')(
+                  <SelectInput prefix="credit-card" rendomValue={this.state.rendomBankCard}></SelectInput>
+              )}
+          </FormItem>
+        </Form>
       </div>
     );
   }

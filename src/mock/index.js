@@ -40,9 +40,21 @@ export function rendomCWords(min = 10, max = min) {
  *
  * @export
  * @returns 
+ * @param {boolean} adult 生成成年人的身份证
  */
-export function rendomID() {
-    return Random.id()
+export function rendomID(adult=true) {
+    let idNum = Random.id();
+    // 过滤未成年递归
+    if(adult && new Date().getFullYear() - idNum.substr(6,4) < 18){
+        console.log("未成年",idNum);
+        idNum = rendomID(true);
+    }
+    // 过滤成年递归
+    if(!adult && new Date().getFullYear() - idNum.substr(6,4) >= 18){
+        console.log("成年",idNum);
+        idNum = rendomID(false);
+    }
+    return idNum
 }
 
 /**
