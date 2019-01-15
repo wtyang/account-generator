@@ -10,7 +10,7 @@ class SelectInput extends Component{
             prefix={<Icon type={this.props.prefix} theme="outlined" />}
             id={this.props.id} type="text" 
             value={this.props.rendomValue} 
-            addonAfter={<Icon type='copy' data-clipboard-target={"#"+this.props.id} />}
+            addonAfter={<Icon style={{cursor:'pointer'}} type='copy' data-clipboard-target={"#"+this.props.id} />}
             readOnly 
         />)
   }
@@ -59,7 +59,19 @@ class AccountGenerator extends Component {
         e.clearSelection();
     });
   }
-
+  /**
+   * 获取用户全部信息
+   */
+  generateDataAll= ()=>{
+    let data = {
+      rendomName: this.state.rendomName,
+      rendomID: this.state.rendomID,
+      rendomMobile: this.state.rendomMobile,
+      rendomBankCard: this.state.rendomBankCard,
+      defaultBankCard: this.state.defaultBankCard
+    } 
+    return data;
+  }
 
   /**
    * 伸展菜单
@@ -85,8 +97,8 @@ class AccountGenerator extends Component {
   * 更改卡bin
   * 
   */
-  changeCardBin = (cardBin = this.state.cardBin)=>{
-    this.setState({
+  changeCardBin = async (cardBin = this.state.cardBin)=>{
+    await this.setState({
       cardBin:cardBin
     })
     this.initRendomData();
@@ -134,11 +146,11 @@ class AccountGenerator extends Component {
         <FormItem inline  {...tailFormItemLayout}>
           
           <Button type="primary" htmlType="button"  onClick={this.initRendomData}>重新生成</Button>
-          <Button type="primary" htmlType="button" style={{ marginLeft: 8 }} data-clipboard-text={Object.values(this.state).join(',')}>复制全部</Button>
+          <Button type="primary" htmlType="button" style={{ marginLeft: 8 }} data-clipboard-text={Object.values(this.generateDataAll()).join(',')}>复制全部</Button>
         </FormItem>
         <Form>
           <FormItem {...formItemLayout} label="姓名">
-            <SelectInput prefix="user" rendomValue={this.state.rendomName} ></SelectInput>
+            <SelectInput id="realName" prefix="user" rendomValue={this.state.rendomName} ></SelectInput>
           </FormItem>
           <FormItem {...formItemLayout} label="身份证号">
             <Col span="6">
@@ -147,14 +159,14 @@ class AccountGenerator extends Component {
                 <Option value={0}>未成年</Option>
               </Select>
             </Col>
-            <Col span="18"><SelectInput prefix="idcard" rendomValue={this.state.rendomID}></SelectInput></Col>
+            <Col span="18"><SelectInput id="idCard" prefix="idcard" rendomValue={this.state.rendomID}></SelectInput></Col>
             
           </FormItem>
           <FormItem {...formItemLayout} label="手机号">
-            <SelectInput prefix="mobile" rendomValue={this.state.rendomMobile}></SelectInput>
+            <SelectInput id="mobileNumber" prefix="mobile" rendomValue={this.state.rendomMobile}></SelectInput>
           </FormItem>
           <FormItem {...formItemLayout} label="固定银行卡号">
-            <SelectInput prefix="credit-card" rendomValue={this.state.defaultBankCard}></SelectInput>
+            <SelectInput id="defaultBankCard" prefix="credit-card" rendomValue={this.state.defaultBankCard}></SelectInput>
           </FormItem>
           <FormItem {...formItemLayout} label="银行卡号">
             <Col span="6">
@@ -167,7 +179,7 @@ class AccountGenerator extends Component {
               </Select>
             </Col>
             <Col span="18">
-              <SelectInput prefix="credit-card" rendomValue={this.state.rendomBankCard}></SelectInput>
+              <SelectInput id="bankCard" prefix="credit-card" rendomValue={this.state.rendomBankCard}></SelectInput>
               
             </Col>
             
