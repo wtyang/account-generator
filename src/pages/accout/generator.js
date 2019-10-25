@@ -32,9 +32,10 @@ class AccountGenerator extends Component {
     adult: true,
     cardBinList : [
       { name: "农业银行", value: '622848' },
+      { name: "建设银行", value: '623668' },
+      { name: "交通银行", value: '622262011' },
       { name: "招商银行", value: '622580' },
       { name: "民生银行", value: '622622' },
-      { name: "建设银行", value: '622728' },
       { name: "中国银行", value: '622763' },
       { name: "兴业银行", value: '622909' },
       { name: "工商银行", value: '623062' },
@@ -42,7 +43,6 @@ class AccountGenerator extends Component {
       { name: "中信银行", value: '621771' },
       { name: "光大银行", value: '622663' },
       { name: "民生银行", value: '622617' },
-      { name: "交通银行", value: '622258' },
       { name: "平安银行", value: '622156' },
       { name: "邮政银行", value: '620062' },
       { name: "华夏银行", value: '621222' }
